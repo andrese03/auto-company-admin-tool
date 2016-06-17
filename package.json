@@ -1,0 +1,24 @@
+{
+  "name": "newlink",
+  "version": "0.0.1",
+  "description": "A simple app built with gulp, mongodb, express and angularjs.",
+  "scripts": {
+    "start": "gulp"
+  },
+  "dependencies": {
+    "MD5": "~1.2.0",
+    "body-parser": "^1.14.0",
+    "cron": "~1.0.4",
+    "errorhandler": "^1.4.3",
+    "express": "^4.0.0",
+    "express-jwt": "~0.2.0",
+    "express-validator": "~2.1.0",
+    "gulp": "^3.9.0",
+    "gulp-nodemon": "^2.0.4",
+    "lazy": "^1.0.11",
+    "moment": "^2.10.3",
+    "mongodb": "^2.1.21",
+    "q": "^1.0.1"
+  },
+  "private": true
+}
