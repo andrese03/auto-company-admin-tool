@@ -1,4 +1,4 @@
-var app = angular.module('newlink');
+var app = angular.module('porsche');
 
 app.controller('OptionsController', function(wsOption, $timeout, $scope, lists) {
 

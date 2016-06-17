@@ -1,4 +1,4 @@
-# Newlink (0.0.1)
+# Porsche (0.0.1)
 Esta aplicación contiene tanto e módulo de `backend` como `frontend`. Cualquier duda o consulta hablar con **Andrés Encarnación**.
 ### Requisitos
 - NodeJS v.4.0 o superior

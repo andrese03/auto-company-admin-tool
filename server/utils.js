@@ -216,10 +216,8 @@ exports.initializeDatabase = function(db) {
 
   var roles = [
     {_id: 1, 'name': 'Administrador', options: options, "createdBy": {"_id": 1, "username": "admin", "fullName": "Andrés Encarnación Ortiz"}},
-    {_id: 2, 'name': 'Supervisor', options: [], "createdBy": {"_id": 1, "username": "admin", "fullName": "Andrés Encarnación Ortiz"}},
-    {_id: 3, 'name': 'Monitor', options: [], "createdBy": {"_id": 1, "username": "admin", "fullName": "Andrés Encarnación Ortiz"}},
-    {_id: 4, 'name': 'Ejecutivo', options: [], "createdBy": {"_id": 1, "username": "admin", "fullName": "Andrés Encarnación Ortiz"}},
-    {_id: 5, 'name': 'Cliente', options: [], "createdBy": {"_id": 1, "username": "admin", "fullName": "Andrés Encarnación Ortiz"}}
+    {_id: 2, 'name': 'Taller', options: [], "createdBy": {"_id": 1, "username": "admin", "fullName": "Andrés Encarnación Ortiz"}},
+    {_id: 3, 'name': 'Mercadeo', options: [], "createdBy": {"_id": 1, "username": "admin", "fullName": "Andrés Encarnación Ortiz"}},
   ]
 
   var user = {

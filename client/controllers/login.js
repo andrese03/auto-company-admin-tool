@@ -1,4 +1,4 @@
-var app = angular.module('newlink');
+var app = angular.module('porsche');
 
 app.controller('LoginController', function(wsUser, $timeout, $scope, $rootScope, toaster, dialogs) {
 
@@ -13,7 +13,7 @@ app.controller('LoginController', function(wsUser, $timeout, $scope, $rootScope,
     userService.login(field.user, field.pass)
     .then(function (result) {
       if(field.user === field.pass)
-      {     
+      {
         var promise = dialogs.create('../views/changePassword.html','ChangePasswordController', $scope.field);
         promise.result.then(function () {
           $rootScope.$broadcast('user-login', result.data);

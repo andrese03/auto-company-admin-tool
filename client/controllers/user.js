@@ -1,4 +1,4 @@
-var app = angular.module('newlink');
+var app = angular.module('porsche');
 
 app.controller('UserController', function ($scope, wsUser, $state, user, roles, toaster) {
 
@@ -47,5 +47,5 @@ app.controller('UserController', function ($scope, wsUser, $state, user, roles, 
   $scope.back = function () {
     $state.go('users');
   }
-  
+
 });

@@ -1,4 +1,4 @@
-var app = angular.module('newlink');
+var app = angular.module('porsche');
 
 app.controller('ChangePasswordController', function ($uibModalInstance, $scope, wsUser, toaster, data) {
 
@@ -30,15 +30,15 @@ app.controller('ChangePasswordController', function ($uibModalInstance, $scope, 
         .catch(function(err) {
           $uibModalInstance.close({});
         })
-      } 
-      else 
+      }
+      else
         toaster.pop('error', 'Información', 'Las contraseñas no coinciden.');
     })
     .catch(function (result) {
       toaster.pop('error', 'Información', 'Contraseña incorrecta');
     })
   }
-  
+
   //
   $scope.cancel = function () {
     $uibModalInstance.dismiss({});

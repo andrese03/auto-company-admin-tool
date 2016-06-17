@@ -1,4 +1,4 @@
-var app = angular.module('newlink', [
+var app = angular.module('porsche', [
   'ui.router',
   'dialogs.main',
   'ui.bootstrap.tpls',
@@ -12,34 +12,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   // // For any unmatched url, redirect to /login
   $urlRouterProvider.otherwise('/options');
-   
-   $stateProvider
-  .state('clients', {
-    url: '/clients',
-    controller: 'ClientsController',
-    templateUrl: 'views/clients.html'
-  })
 
-
-   $stateProvider
-  .state('client', {
-    url: '/client/:id',
-    params:{
-      id : '0'
-    },
-    controller: 'ClientController',
-    templateUrl: 'views/client.html',
-    resolve: {
-      client: function (wsClient, $stateParams) {
-        if ($stateParams.id != 0){
-          console.log("hola");
-          return new wsClient().findById($stateParams.id);
-        }else{
-          return new wsClient();
-        }
-      }
-    }
-  })
   $stateProvider
   .state('options', {
     url: '/options',
@@ -54,7 +27,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   .state('user', {
     url: '/user/:id',
     params: {
-      id : '0' 
+      id : '0'
     },
     controller: 'UserController',
     templateUrl: 'views/user.html',

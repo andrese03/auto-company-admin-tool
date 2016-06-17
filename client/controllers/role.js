@@ -1,4 +1,4 @@
-var app = angular.module('newlink');
+var app = angular.module('porsche');
 
 app.controller('roleCtrl', function ($scope, options, wsOption, wsRole, roles, toaster, dialogs){
 
@@ -11,7 +11,7 @@ app.controller('roleCtrl', function ($scope, options, wsOption, wsRole, roles, t
 	var roleCopy = angular.copy($scope.role);
 	var rol = new wsRole();
 
-	
+
 	var message = {
     saveError: "Cambios no fueron guardados",
     save: "Cambios guardados exitosamente",

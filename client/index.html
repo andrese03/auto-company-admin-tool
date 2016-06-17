@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html ng-app="newlink">
+<html ng-app="porsche">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Newlink</title>
+  <title>Porsche</title>
   <!-- Favicon -->
   <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <!-- Tell the browser to be responsive to screen width -->
@@ -21,7 +21,7 @@
   <!-- ToasterJS -->
   <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.min.css"/>
   <!-- Newlink Skin -->
-  <link rel="stylesheet" href="styles/skin-newlink.css">
+  <link rel="stylesheet" href="styles/skin-porsche.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,12 +30,12 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition skin-newlink sidebar-mini fixed" ng-controller="SessionController as Session">
+<body class="hold-transition skin-porsche sidebar-mini fixed" ng-controller="SessionController as Session">
 
 <div ng-class="{'wrapper' : Session.isAuthenticated()}">
 
   <!-- Toaster -->
-  <toaster-container toaster-options="{'time-out': 1000}"></toaster-container>
+  <toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
 
   <!-- Main Header -->
   <nav-bar ng-show="Session.isAuthenticated()"></nav-bar>
@@ -75,7 +75,6 @@
 <script src="app.js"></script>
 <script src="services/wsUtils.js"></script>
 <script src="services/wsBase.js"></script>
-<script src="services/wsClient.js"></script>
 <script src="services/wsOption.js"></script>
 <script src="services/wsRole.js"></script>
 <script src="services/wsUser.js"></script>
@@ -89,11 +88,7 @@
 <script src="controllers/login.js"></script>
 <script src="controllers/user.js"></script>
 <script src="controllers/users.js"></script>
-<script src="controllers/client.js"></script>
-<script src="controllers/clients.js"></script>
 <script src="controllers/changePassword.js"></script>
-<script src="controllers/agregarUser.js"></script>
-<script src="controllers/seleccionarUser.js"></script>
 
 </body>
 </html>

@@ -11,20 +11,20 @@ module.exports = function (app) {
 var config = {
   development: {
     publicPath: 'client',
-    databaseConnectionString: 'mongodb://192.168.1.205:27017/newlink',
+    databaseConnectionString: 'mongodb://localhost:27017/porsche',
     appPort: process.env.PORT || 8089,
-    jwtSecret: 'newlink-321'
+    jwtSecret: 'porsche-321'
   },
   testing: {
     publicPath: 'client',
-    databaseConnectionString: 'mongodb://localhost:27001/newlink',
+    databaseConnectionString: 'mongodb://localhost:27001/porsche',
     appPort: process.env.PORT || 1009,
-    jwtSecret: 'newlink-321'
+    jwtSecret: 'porsche-321'
   },
   production: {
     publicPath: 'dist',
-    databaseConnectionString: 'mongodb://localhost:27017/newlink',
+    databaseConnectionString: 'mongodb://localhost:27017/porsche',
     appPort: process.env.PORT || 3009,
-    jwtSecret: 'newlink-321'
+    jwtSecret: 'porsche-321'
   }
 }

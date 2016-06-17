@@ -3,7 +3,7 @@
  * Andrés Encarnación - 13/06/2016
  */
 
-var app = angular.module('newlink');
+var app = angular.module('porsche');
 
 app.directive('dynamicList', function() {
   return {

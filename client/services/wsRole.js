@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('newlink');
+var app = angular.module('porsche');
 
 app.factory('wsRole', function (Base, $q) {
 

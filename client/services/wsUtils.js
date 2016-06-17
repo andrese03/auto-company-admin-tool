@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('newlink');
+var app = angular.module('porsche');
 
 app.factory('wsUtils', function($http, $rootScope, $q, dialogs) {
 
@@ -49,7 +49,7 @@ app.factory('wsUtils', function($http, $rootScope, $q, dialogs) {
     return deferred.promise;
   }
 
-  // Listas 
+  // Listas
   ws.getLists = function(listNames) {
     var deferred = $q.defer();
 
@@ -63,7 +63,7 @@ app.factory('wsUtils', function($http, $rootScope, $q, dialogs) {
       url: '/lists',
       data: []
     });
-    
+
     promise
     .success(function(data, status, headers, config) {
       storedLists = data || {};
