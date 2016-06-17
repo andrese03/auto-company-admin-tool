@@ -70,6 +70,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     url: '/login',
     controller: 'LoginController',
     templateUrl: 'views/login.html'
+  })
+  .state('homeDashboard', {
+    url: '/home',
+    controller: 'HomeDashboardController',
+    templateUrl: 'views/homeDashboard.html'
   });
 
 })

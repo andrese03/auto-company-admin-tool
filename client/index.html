@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/skins/_all-skins.min.css">
   <!-- Angular Dialogs Services -->
   <link rel="stylesheet" href="bower_components/angular-dialog-service/dist/dialogs.min.css">
   <!-- Ui Select -->
@@ -30,7 +31,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition skin-porsche sidebar-mini fixed" ng-controller="SessionController as Session">
+<body class="hold-transition skin-red sidebar-mini fixed" ng-controller="SessionController as Session">
 
 <div ng-class="{'wrapper' : Session.isAuthenticated()}">
 
@@ -91,6 +92,7 @@
 <script src="controllers/users.js"></script>
 <script src="controllers/changePassword.js"></script>
 <script src="controllers/adminDashboard.js"></script>
+<script src="controllers/homeDashboard.js"></script>
 
 </body>
 </html>
