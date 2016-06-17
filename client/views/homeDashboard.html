@@ -1,0 +1,66 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+  Inicio
+  <small>resumen del taller de vehiculos</small>
+  </h1>
+</section>
+<!-- Main content -->
+<section class="content">
+
+  <div class="col-xs-4">
+    <div class="box box-widget widget-user-2">
+      <!-- Add the bg color to the header using any of the bg-* classes -->
+      <div class="widget-user-header bg-red">
+        <div class="widget-user-image">
+          <img class="img-circle" src="images/avatar-porsche.png" alt="User Avatar">
+        </div>
+        <!-- /.widget-user-image -->
+        <h3 class="widget-user-username">{{file.vehicle.model}}</h3>
+        <h5 class="widget-user-desc">{{file.owner.fullName}}</h5>
+      </div>
+      <div class="box-footer no-padding">
+        <ul class="nav nav-stacked">
+          <li ng-repeat="phase in file.phases"><a href="#">{{phase.description}} <span class="pull-right badge bg-red">{{phase.progress}}</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-8">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Vehiculos del Taller</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body no-padding">
+        <table class="table table-condensed">
+          <tbody><tr>
+            <th style="width: 10px">#</th>
+            <th>Vehiculo</th>
+            <th>Task</th>
+            <th>Dueño</th>
+            <th>Estado</th>
+            <th>Progress</th>
+            <th style="width: 40px">Label</th>
+          </tr>
+          <tr ng-repeat="file in files" style="cursor: pointer;" ng-click="selectFile(file)">
+            <td>{{$index + 1}}.</td>
+            <td>{{file.vehicle.model}}</td>
+            <td>{{getLastPhase(file).description}}</td>
+            <td>{{file.owner.fullName}}</td>
+            <td> {{getLastPhase(file).progress == 100 ? 'Completada' : 'Pendiente' }} </td>
+            <td>
+              <div class="progress progress-xs">
+                <div class="progress-bar progress-bar-danger" ng-style="{width: getLastPhase(file).progress + '%'}"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-red">{{getLastPhase(file).progress}}%</span></td>
+          </tr>
+        </tbody></table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+  </div>
+</section>
+<!-- /.content -->
