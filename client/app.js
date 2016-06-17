@@ -61,6 +61,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       }
     }
   })
+  .state('adminDashboard', {
+    url: '/adminDashboard',
+    controller: 'AdminDashboardCtrl',
+    templateUrl: 'views/adminDashboard.html',
+  })
   .state('login', {
     url: '/login',
     controller: 'LoginController',
