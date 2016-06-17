@@ -66,6 +66,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     controller: 'AdminDashboardCtrl',
     templateUrl: 'views/adminDashboard.html',
   })
+  .state('events', {
+    url: '/events',
+    // controller: 'AdminDashboardCtrl',
+    templateUrl: 'views/events.html',
+  })
   .state('login', {
     url: '/login',
     controller: 'LoginController',
