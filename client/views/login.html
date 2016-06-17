@@ -1,0 +1,32 @@
+<div class="login-box">
+  <div class="login-logo">
+    <a href=""><b>N</b>ewlink</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <h4 class="login-box-msg">Iniciar sesión</h4>
+
+    <form name="Forma" ng-submit="login(field) && Forma.$valid">
+      <div class="form-group has-feedback">
+        <input ng-model="field.user" type="text" class="form-control" placeholder="Usuario" required>
+        <span></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input ng-model="field.pass" type="password" class="form-control" placeholder="Contraseña" required>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8" style="padding-top: 6px">
+          <a href="">He olvidado mi contraseña</a><br>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+  </div>
+  <!-- /.login-box-body -->
+</div>

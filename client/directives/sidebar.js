@@ -5,10 +5,24 @@
 
 var app = angular.module('newlink');
 
-app.directive('sideBar', function () {
+app.directive('sideBar', function ($state) {
   return {
     restrict: 'EA',
     templateUrl: 'views/sidebar.html',
-    replace: true
+    replace: true,
+    controller: function ($scope) {
+
+      $scope.uiSelect = {route: null};
+
+      $scope.logout = function () {
+        $scope.$broadcast('user-logout', null);
+      }
+
+      $scope.go = function (item) {
+        $state.go(item.name);
+        $scope.uiSelect.route = null;
+      }
+
+    }
   }
 })

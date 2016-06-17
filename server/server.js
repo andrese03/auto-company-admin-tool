@@ -1,5 +1,5 @@
-'use_strict'
 // server.js
+'use_strict'
 
 // Base Setup
 var express = require('express');
@@ -13,11 +13,15 @@ var jwtAuth = require('express-jwt');
 var config = require('./config')(app);
 var utils = require('./utils');
 var port = app.get('config').appPort;
-var database = require('./database').init(app);
+var db = require('mongoskin').db(config.databaseConnectionString);
 
+app.set('db', db);
 app.use(bodyParser.json({ extended: true}));
 app.use(bodyParser.urlencoded({ extended: true}));
-app.use('/api', jwtAuth({secret: config.jwtSecret}));
+
+utils.initializeDatabase(db);
+
+app.use('/api', jwtAuth({secret: config.jwtSecret}), utils.unauthorizedRequestHandler);
 app.use('/', express.static(config.publicPath, {maxAge: '1d'}));
 app.use('/files', express.static('files', {maxAge: '1d'}));
 app.use('/bower_components', express.static('bower_components', {maxAge: '1d'}));
@@ -30,30 +34,32 @@ switch (process.env.NODE_ENV) {
     app.use(errorHandler());
     break;
   default:
-    console.log('LOL');
     break;
 }
 
-// Utility para CRUDS
+/**
+ * Toma Servicios que no tienen ningun tipo de modificación para correr automáticamente
+ * Estos servicios no requieren de un ./routes/mi-servicio.js
+ */
 var runWebServices = function (webService) {
-  require('./routes/generic')('/api/' + webService, webService, app, db);
-}
+  require('./routes/generic')(webService, app);
+};
 
 var webServices = [];
 
 webServices.forEach(runWebServices);
 
-// Rutinas De Node
-// job.restartSecuencias(app);
-
 // Routes
-require('./routes/test')(app);
-
-app.use('*', function(req, res, next){
-  res.status(404).json(new utils.badResponse(`Wait what? 'The url you're trying to reach doesn't exist.`));
-});
+require('./routes/option')('/api/option', app);
+require('./routes/user')('/api/user', app);
+require('./routes/role')('/api/role', app);
+require('./routes/client')('/api/client',app);
+require('./routes/common')(app);
 
 // Server Run
 app.listen(port, function () {
   console.log(`[*] Server Running on Port: ${port}`);
 });
+
+// Rutinas De Node
+// job.restartSecuencias(app);

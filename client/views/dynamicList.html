@@ -1,0 +1,116 @@
+<div class="panel panel-default">
+
+  <div class="panel-body">
+
+    <div class="row">
+
+      <!-- Search Area -->
+      <div class="col-sm-4 col-lg-4">
+        <div class="input-group">
+          <span class="input-group-addon">Buscar: </span>
+          <input
+          class="form-control"
+          type="text"
+          ng-change="search()"
+          ng-keyup="$event.keyCode == 13 ? search() : null"
+          ng-model="params.search"
+          ng-model-options="{ debounce: 500}"/>
+          <span class="input-group-addon btn btn-default" ng-click="search()"><i class="fa fa-search"></i></span>
+        </div>
+      </div>
+
+      <!-- Force -->
+      <div class="col-sm-4 col-lg-4">
+        <div class="input-group pull-right">
+        </div>
+      </div>
+
+      <!-- Cuando no hay elementos o se están buscando -->
+      <div class="col-xs-12 text-center" ng-if="!elements.length">
+        <br>
+        <h4>
+          <span ng-if="!ready">
+            <i class="fa fa-spinner fa-pulse"></i>
+            Cargando
+          </span>
+          <span ng-if="ready">
+            No existe información para mostrar
+          </span>
+        </h4>
+        <br>
+      </div>
+    </div>
+
+    <table id="dynamic-list" cellspacing="0" class="table table-hover table-condensed" style="border-bottom: 1px solid #dddddd; " ng-if="elements.length">
+
+      <thead>
+
+        <tr>
+          <th ng-style="field.sortable ? { 'cursor': 'pointer' } : {}" ng-repeat="field in fields" ng-click="field.sortable ? filter(field.name) : null" ng-class="field.class">
+            <span ng-bind-html="field.title"></span>
+            <i
+              ng-if="field.sortable"
+              class="fa"
+              ng-style="{ 'opacity' : (field.name == orderBy.field) ? '1' : '0.2' }"
+              ng-class="{'fa-angle-up': !orderBy.reverse, 'fa-angle-down': orderBy.reverse}"></i>
+          </th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr style="cursor: pointer;" ng-repeat="element in elements" ng-dblclick="onDoubleClick(element, $event)" hm-tap="onDoubleClick(element, $event)">
+
+          <!-- Campos a Repetir -->
+          <td ng-repeat="field in fields">
+            <!-- Campos Normales -->
+            <span ng-if="!field.config && field.type !='date' && field.decimalsOnly!= 'decimals-only' && field.type !='object' && field.type !='currency' && field.type != 'checkbox'">
+              {{inception(element, field.name) | limitTo: field.limit}}{{(inception(element, field.name).length > field.limit) ? '...' : ''}}
+            </span>
+            <!-- Campos Monetarios -->
+            <span class="" ng-if="field.type ==='currency'">
+              {{element['currency'].code}} {{inception(element, field.name) | limitTo: field.limit | currency}}{{(inception(element, field.name).length > field.limit) ? '...' : ''}}
+            </span>
+            <!-- Campos Numericos -->
+            <span ng-if="!field.config && field.type !='date' && field.decimalsOnly == 'decimals-only' && !matching(inception(element, field.name)) && field.type !='object'">
+              {{inception(element, field.name) | limitTo: field.limit}}{{(inception(element, field.name).length > field.limit) ? '...' : ''}}
+            </span>
+            <!-- Campos Fecha -->
+            <span ng-if="field.type=='date'">
+              {{inception(element, field.name) | date:'dd/MMM/yyyy'}}
+            </span>
+            <!-- Campos Objetos (Vienen de la BD) -->
+            <span ng-if="field.type=='object'">
+              {{resolve(field.routeInDb, element, field.function, field.def) | limitTo: field.limit}}{{(resolve(field.routeInDb, element, field.function, field.def).length > field.limit) ? '...' : ''}}
+            </span>
+            <!-- Campos Select (Solo viene el ID) -->
+            <span ng-if="field.type=='select'">
+              {{getCeilValueInOptions(element[field.name], field.options) | limitTo: field.limit}}
+            </span>
+            <!-- Campos CheckBox -->
+            <span ng-if="field.type=='checkbox'">
+              <input ng-checked="inception(element, field.name)" type="checkbox" disabled>
+            </span>
+          </td>
+
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div ng-if="elements.length" class="row">
+  <div class="col-xs-12">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default disabled" ng-class="prevPageDisabled()" ng-click="prevPage()">
+      <i class="fa fa-angle-double-left"></i>
+      </button>
+      <button type="button" class="btn btn-default ng-binding" disabled="">{{currentPage}}/{{lastPage}}</button>
+      <button type="button" class="btn btn-default" ng-class="nextPageDisabled()" ng-click="nextPage()">
+      <i class="fa fa-angle-double-right"></i>
+      </button>
+    </div>
+  </div>
+</div>

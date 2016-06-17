@@ -1,0 +1,39 @@
+<section class="content-header">
+    <h1 style="display: inline">
+     	Roles
+     <small><!-- Descripción --></small>
+    </h1>
+    <div style="float: right" class="btn-group">
+    	<button class="btn btn-primary" ng-click="saveChanges()">
+        <i class="fa fa-check"></i> Guardar
+      </button>
+    </div>
+</section>
+
+<section class="content">
+
+ <div class="box box-info">
+
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li ng-click="setRol(rol)" ng-class="{active:role._id == rol._id}"  ng-repeat="rol in roles ">
+				<a href>{{rol.name}}</a>
+			</li>
+	  </ul>
+
+		<table ng-repeat="rol in roles" ng-if="role._id === rol._id" class="table table-striped">
+			<tr>
+				<th>Vista</th>
+			<th>Acceso</th>
+			</tr>
+			<tr ng-repeat="opts in options">
+				<td>
+					<span>{{opts.description}}</span>
+				</td>
+				<td>
+					<input type="checkbox" ng-click="updateCheck(opts)" ng-checked="checkIn(rol, opts)" />
+				</td>
+
+			</tr>
+		</table>
+	</div>
+</section>

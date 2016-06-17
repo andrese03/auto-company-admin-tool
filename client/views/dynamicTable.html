@@ -1,0 +1,322 @@
+<style>
+  /*CSS should be here*/
+  dynamic-table span.input-group-addon:first-child,
+  .search-span {
+    /*padding-left: 0px;*/
+    /*color:green;*/
+  }
+  dynamic-table button.btn.btn-warning {
+    margin-bottom: 10px;
+    margin-top: 0px;
+  }
+  .current {
+    color: red;
+  }
+</style>
+
+<div class="panel">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-4 col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">Buscar: </span>
+                    <input class="form-control" type="text" ng-model="params.search" ng-keyup="$event.keyCode == 13 ? search() : null"/>
+                    <span class="input-group-addon btn btn-default" ng-click="search()"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-4">
+                <div class="input-group pull-right">
+                    <!-- No Code -->
+                </div>
+            </div>
+            <div class="col-sm-3 col-lg-3  text-right pull-right">
+                <button type="button" class="btn btn-warning" ng-click="setElement()">
+                    <i class="fa fa-plus"></i> Agregar
+                </button>
+            </div>
+        </div>
+
+        <form
+          role="form"
+          id="dynamicTableForm"
+          name="dynamicTableForm"
+          novalidate
+          ng-submit="save()">
+
+            <table cellspacing="0" class="table ">
+                <thead>
+                  <tr>
+                    <!-- Aqui van los nombres de los Campos ($scope.fields) -->
+                    <th class="col-xs-2" ng-repeat="field in fields" ng-click="filter(field.name)">{{field.title}}</th>
+                    <th class="col-xs-1"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-if="object.editing" class="">
+
+                    <!-- Aqui van los Campos de los Elementos -->
+                    <td ng-repeat="field in fields">
+                      <!-- Inputs Texto -->
+                      <span
+                        ng-if="field.type=='text'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name].$invalid && dynamicTableForm.$dirty && object.editing)}">
+                        <input
+                          type="text"
+                          class="form-control input-sm"
+                          ng-model="object[field.name]"
+                          name="{{field.name}}"
+                          maxlength="{{field.maxlength}}"
+                          decimals-only='field.decimalsOnly'
+                          ng-required="field.required"
+                          ng-disabled="field.disabled"/>
+                      </span>
+
+                      <!-- Inputs Numericos -->
+                      <span
+                        ng-if="field.type=='number'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name].$invalid && dynamicTableForm.$dirty && object.editing)}">
+                        <input
+                          type="number"
+                          class="form-control input-sm"
+                          ng-model="object[field.name]"
+                          name="{{field.name}}"
+                          step="field.step"
+                          ng-required="field.required"
+                          ng-disabled="field.disabled" />
+                      </span>
+
+                      <!-- Inputs Fecha -->
+                      <span
+                        ng-if="field.type=='date'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name].$invalid && dynamicTableForm.$dirty && object.editing)}">
+                        <input
+                          type="date"
+                          class="form-control input-sm"
+                          ng-model="object[field.name]"
+                          name="{{field.name}}"
+                          maxlength="{{field.maxlength}}"
+                          ng-required="field.required"
+                          ng-disabled="field.disabled" />
+                      </span>
+
+                      <!-- Inputs Select -->
+                      <span
+                        ng-if="field.type=='select'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name].$invalid && dynamicTableForm.$dirty && object.editing)}">
+                        <ui-select
+                          ng-model="object[field.name]"
+                          theme="bootstrap"
+                          name="{{field.name+$parent.object._id}}"
+                          ng-required="!object[field.name]">
+                          <ui-select-match placeholder="Selecciona...">
+                            {{inception($select.selected, field.config.label)}}
+                          </ui-select-match>
+                          <ui-select-choices repeat="option in field.options">
+                            <span ng-bind-html="inception(option, field.config.label) | highlight: $select.search"></span>
+                          </ui-select-choices>
+                        </ui-select>
+                      </span>
+
+                      <!-- Inputs Checkbox -->
+                      <span
+                        ng-if="field.type=='checkbox'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name].$invalid && dynamicTableForm.$dirty && object.editing)}">
+                        <input
+                          ng-model="object[field.name]"
+                          type="checkbox"
+                          name="{{field.name}}">
+                      </span>
+
+                      <!-- Inputs Modal -->
+                      <span ng-if="field.type=='modal'">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-default"
+                            ng-click="openModal(object[field.name]);$event.stopPropagation()"
+                            disabled>
+                              {{field.title}}
+                          </button>
+                      </span>
+                    </td>
+
+                    <td class="text-right">
+                      <!-- Cancelar Elemento -->
+                      <button
+                        class="btn btn-sm btn-default"
+                        ng-click="discardChanges(object)">
+                          <i class="fa fa-undo"></i>
+                      </button>
+                      <!-- Guardar Elemento -->
+                      <button
+                        ng-if="object.editing"
+                        ng-click="save(object)"
+                        class="btn btn-sm btn-default"
+                        type="submit"
+                        name="save">
+                          <i class="fa fa-check"></i>
+                      </button>
+                    </td>
+
+                  </tr>
+                </tbody>
+
+                <tbody>
+                  <!-- isVisible -->
+                  <tr
+                    id='{{rowId}}'
+                    class="visibility-hover"
+                    ng-repeat="element in elements track by $index"
+                    ng-init="rowId='row-'+$index"
+                    ng-click="setChanges(element);"
+                    ng-mouseover="isVisible=true"
+                    ng-mouseleave="isVisible=false"
+                    ng-class="{current:element.editing}">
+                    <!-- Aqui van los nombres de los Campos($scope.fields) -->
+                    <td ng-repeat="field in fields" class="">
+
+                      <!-- Inputs Numericos -->
+                      <span
+                        ng-if="field.type=='text'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name+element._id].$invalid && dynamicTableForm.$dirty && element.editing)}">
+                        <input
+                          type="text"
+                          class="form-control input-sm"
+                          ng-model="element[field.name]"
+                          name="{{field.name+element._id}}"
+                          maxlength="{{field.maxlength}}"
+                          decimals-only='field.decimalsOnly'
+                          ng-required="field.required && element.editing"
+                          ng-disabled="!element.editing || field.disabled"/>
+                      </span>
+
+                      <!-- Inputs Numericos -->
+                      <span
+                        ng-if="field.type=='number'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name+element._id].$invalid && dynamicTableForm.$dirty && element.editing)}">
+                        <input
+                          type="number"
+                          class="form-control input-sm"
+                          ng-model="element[field.name]"
+                          name="{{field.name+element._id}}"
+                          step="field.step"
+                          ng-required="field.required && element.editing"
+                          ng-disabled="!element.editing || field.disabled"/>
+                      </span>
+
+                      <!-- Inputs Fecha -->
+                      <span
+                        ng-if="field.type=='date'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name+element._id].$invalid && dynamicTableForm.$dirty && element.editing)}">
+                        <input
+                          type="date"
+                          class="form-control input-sm"
+                          ng-model="element[field.name]"
+                          name="{{field.name+element._id}}"
+                          ng-required="field.required && element.editing"
+                          ng-disabled="!element.editing || field.disabled"/>
+                      </span>
+
+                      <!-- Inputs Select -->
+                      <span
+                        ng-if="field.type=='select'"
+                        ng-class="{'has-error': (!element[field.name] && dynamicTableForm.$dirty && element.editing)}">
+                        <ui-select
+                          ng-model="element[field.name]"
+                          theme="bootstrap"
+                          name="{{field.name+$parent.element._id}}"
+                          ng-required="!element[field.name] && element.editing">
+                          <ui-select-match placeholder="Selecciona...">
+                            {{inception($select.selected, field.config.label)}}
+                          </ui-select-match>
+                          <ui-select-choices repeat="option in field.options">
+                            <span ng-bind-html="inception(option, field.config.label) | highlight: $select.search"></span>
+                          </ui-select-choices>
+                        </ui-select>
+                      </span>
+
+                      <!-- Inputs Checkbox -->
+                      <span
+                        ng-if="field.type=='checkbox'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name+element._id].$invalid && dynamicTableForm.$dirty && element.editing)}">
+                          <input
+                            name="{{field.name+element._id}}"
+                            ng-disabled="!element.editing || field.disabled"
+                            ng-model="element[field.name]"
+                            type="checkbox">
+                      </span>
+
+                      <!-- Inputs Modal -->
+                      <span
+                        ng-if="field.type=='modal'"
+                        ng-class="{'has-error': (dynamicTableForm[field.name+element._id].$invalid && dynamicTableForm.$dirty && element.editing)}">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-default"
+                            ng-click="openModal(element[field.name]);$event.stopPropagation()"
+                            disabled>
+                              {{field.title}}
+                          </button>
+                      </span>
+                    </td>
+
+                    <td class="text-right">
+                      <!-- Habilitar Edicion de Elemento -->
+                      <button
+                        class="btn btn-sm btn-default"
+                        type="button"
+                        ng-if="isVisible && !element.editing"
+                        ng-click="setChanges(element); $event.stopPropagation()">
+                          <span class="fa fa-pencil fa-lg"></span>
+                      </button>
+                      <!-- Eliminar Elemento -->
+                      <button
+                        class="btn btn-sm btn-default visibility-hidden"
+                        type="button"
+                        ng-if="isVisible && !element.editing"
+                        ng-click="deleteElement(element);$event.stopPropagation()">
+                          <span class="fa fa-times fa-lg"></span>
+                      </button>
+                      <!-- Cancelar Elemento -->
+                      <button
+                        type="button"
+                        ng-if="element.editing"
+                        class="btn btn-sm btn-default"
+                        ng-click="discardChanges(element);$event.stopPropagation()">
+                          <i class="fa fa-undo"></i>
+                      </button>
+                      <!-- Guardar Elemento -->
+                      <button
+                        type="submit"
+                        ng-if="element.editing"
+                        class="btn btn-sm btn-default"
+                        name="save">
+                          <i class="fa fa-save"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+          </form>
+      </div>
+</div>
+
+<div class="col-xs-12">
+    <div class="btn-group margin-top-15">
+
+        <!-- Pagina Anterior -->
+        <button type="button" class="btn btn-default disabled" ng-class="prevPageDisabled()" ng-click="prevPage()">
+            <i class="fa fa-angle-double-left"></i>
+        </button>
+
+        <!-- Pagina Actual | Total de Paginas -->
+        <button type="button" class="btn btn-default ng-binding" disabled="">{{currentPage}}/{{lastPage}}</button>
+
+        <!-- Proxima Pagina -->
+        <button type="button" class="btn btn-default" ng-class="nextPageDisabled()" ng-click="nextPage()">
+            <i class="fa fa-angle-double-right"></i>
+        </button>
+
+    </div>
+</div>
+
+<div class="clearfix"></div>

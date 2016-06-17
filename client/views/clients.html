@@ -1,17 +1,17 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1 style="display: inline">
-    Usuarios
-    <small>Lista de todos los usuarios.</small>
+    Clientes
+    <small>Lista de todos los clientes.</small>
   </h1>
-  <span style="float: right"><button ng-click="back()" type="button" class="btn btn-success">Nuevo Usuario</button></span>
+  <span style="float: right"><button ng-click="newClient()" type="button" class="btn btn-success">Nuevo Cliente</button></span>
 </section>
 
 <!-- Main content -->
 <section class="content">
 
   <!-- Your Page Content Here -->
-  <dynamic-list service="user" fields="fields" options="users"></dynamic-list>
+  <dynamic-list service="client" fields="fields" options="clients"></dynamic-list>
   <!-- <br> -->
   <!-- <dynamic-list service="option" fields="fields" options="options"></dynamic-list> -->
 
