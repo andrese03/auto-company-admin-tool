@@ -14,6 +14,7 @@
     "angular-dialog-service": "^5.3.0",
     "angular-ui-select": "^0.18.0",
     "AngularJS-Toaster": "angularjs-toaster#^2.0.0",
-    "lazy.js": "^0.4.2"
+    "lazy.js": "^0.4.2",
+    "Chart.js": "^2.1.6"
   }
 }
